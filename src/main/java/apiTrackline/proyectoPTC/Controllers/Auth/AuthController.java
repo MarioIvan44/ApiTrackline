@@ -137,7 +137,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         // Crear cookie de expiración con SameSite=None
-        String cookieValue = "authToken=; Path=/; HttpOnly; Secure; SameSite=None; MaxAge=0; Domain=learnapifront-9de8a2348f9a.herokuapp.com";
+        String cookieValue = "authToken=; Path=/; HttpOnly; Secure; SameSite=None; MaxAge=0; Domain=apitrackline-3047cf7af332.herokuapp.com";
 
         response.addHeader("Set-Cookie", cookieValue);
         //response.addHeader("Access-Control-Allow-Credentials", "true"); <-- ESTO NO DEBEN AGREGARLO
