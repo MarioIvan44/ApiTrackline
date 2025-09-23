@@ -1,5 +1,6 @@
 package apiTrackline.proyectoPTC.Services;
 
+import apiTrackline.proyectoPTC.Entities.FinanciamientoEntity;
 import apiTrackline.proyectoPTC.Entities.PermisosEntity;
 import apiTrackline.proyectoPTC.Entities.TipoFinanciamientosEntity;
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoDuplicado;
@@ -7,6 +8,7 @@ import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.Exceptio
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoRelacionado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOFinanciamiento;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTipoFinanciamientos;
 import apiTrackline.proyectoPTC.Repositories.TipoFinanciamientosRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -25,6 +29,15 @@ public class TipoFinanciamientosService {
 
     @Autowired
     private TipoFinanciamientosRepository repo;
+
+
+    //get sin paginación
+    public List<DTOTipoFinanciamientos> getSinPaginacion() {
+        List<TipoFinanciamientosEntity> financiamiento = repo.findAll();
+        return financiamiento.stream()
+                .map(this::convertirATipoFinanciamientoDTO)
+                .collect(Collectors.toList());
+    }
 
     // Obtener todos con paginación
     public Page<DTOTipoFinanciamientos> obtenerTiposFinanciamiento(int page, int size) {

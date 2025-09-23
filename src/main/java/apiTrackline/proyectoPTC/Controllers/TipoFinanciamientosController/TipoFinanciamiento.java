@@ -3,6 +3,7 @@ package apiTrackline.proyectoPTC.Controllers.TipoFinanciamientosController;
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionTipoFinanciamientoNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoDuplicado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoRelacionado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOFinanciamiento;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTipoFinanciamientos;
 import apiTrackline.proyectoPTC.Services.TipoFinanciamientosService;
 import jakarta.validation.Valid;
@@ -25,6 +26,20 @@ public class TipoFinanciamiento {
     @Autowired
     private TipoFinanciamientosService service;
 
+    // MÉTODO GET (sin paginación)
+    @GetMapping("/getSinPaginacion")
+    public ResponseEntity<?> getFinanciamiento() {
+        try {
+            List<DTOTipoFinanciamientos> tipoFinanciamientos = service.getSinPaginacion();
+            return ResponseEntity.ok(tipoFinanciamientos);
+        } catch (Exception e) {
+            log.error("Error al obtener los tipos de financiamientos", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error",
+                    "message", "Error no controlado al obtener los tipos de financiamientos"
+            ));
+        }
+    }
     // GET - Obtener todos con paginación
     // Ruta: GET localhost:8080/apiTipoF/obtenerTF?page=0&size=5
     @GetMapping("/obtenerTF")
