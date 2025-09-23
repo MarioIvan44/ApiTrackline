@@ -211,7 +211,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/obtener").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiViaje/crear").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiViaje/actualizar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
-                                .requestMatchers(HttpMethod.PATCH, "/apiViaje/actualizarParcial/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Transportista")
+                                .requestMatchers(HttpMethod.PATCH, "/apiViaje/actualizarParcial/{id}").hasAuthority("ROLE_Transportista")
                                 .requestMatchers(HttpMethod.DELETE, "/apiViaje/eliminar/{id}").hasAuthority("ROLE_Administrador")
 
                          .anyRequest().authenticated()
