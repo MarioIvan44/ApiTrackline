@@ -1,5 +1,4 @@
 package apiTrackline.proyectoPTC.Controllers.Auth;
-
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
 import apiTrackline.proyectoPTC.Services.AuthService;
@@ -25,28 +24,33 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
     @Autowired
     private AuthService service;
     @Autowired
     private JWTUtils jwtUtils;
 
     @PostMapping("/login")
-    private ResponseEntity<String> login(@Valid @RequestBody DTOUsuario data, HttpServletResponse response){
+    private ResponseEntity<String> login(@RequestBody DTOUsuario data, HttpServletResponse response) {
         if (data.getUsuario() == null || data.getUsuario().isBlank() ||
                 data.getContrasenia() == null || data.getContrasenia().isBlank()) {
             return ResponseEntity.status(401).body("Error: Credenciales incompletas");
         }
 
-        if(service.Login(data.getUsuario(), data.getContrasenia())){
-            addTokenCookie(response, data.getUsuario());
+        if (service.Login(data.getUsuario(), data.getContrasenia())) {
+            addTokenCookie(response, data.getUsuario()); //
             return ResponseEntity.ok("Inicio de sesión exitoso");
         }
+
         return ResponseEntity.status(401).body("Credenciales incorrectas");
     }
 
-    private void addTokenCookie(HttpServletResponse response, String usuario) {
-        Optional<UsuarioEntity> userOpt = service.obtenerUsuario(usuario);
+    /**
+     * Se genera el token y se guarda en la Cookie
+     * @param response
+     * @param
+     */
+    private void addTokenCookie(HttpServletResponse response, String correo) {
+        Optional<UsuarioEntity> userOpt = service.obtenerUsuario(correo);
 
         if (userOpt.isPresent()) {
             UsuarioEntity user = userOpt.get();
@@ -56,18 +60,21 @@ public class AuthController {
                     user.getRol().getRol()
             );
 
-            Cookie cookie = new Cookie("authToken", token);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(false); // Usa true si tu backend está en HTTPS (Heroku sí lo está)
-            cookie.setPath("/");
-            cookie.setMaxAge(86400); // 1 día
-            response.addCookie(cookie);
+            String cookieValue = String.format(
+                    "authToken=%s; " +
+                            "Path=/; " +
+                            "HttpOnly; " +
+                            "Secure; " +
+                            "SameSite=None; " +
+                            "MaxAge=86400; " +
+                            "Domain=apitrackline-3047cf7af332.herokuapp.com",
+                    token
+            );
 
-            // Exponer el header para el frontend (CORS)
+            response.addHeader("Set-Cookie", cookieValue);
             response.addHeader("Access-Control-Expose-Headers", "Set-Cookie");
         }
     }
-
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
@@ -86,7 +93,7 @@ public class AuthController {
 
             if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                username = userDetails.getUsername() ;
+                username = userDetails.getUsername();
                 authorities = userDetails.getAuthorities();
             } else {
                 username = authentication.getName();
@@ -109,7 +116,7 @@ public class AuthController {
                     "authenticated", true,
                     "user", Map.of(
                             "id", user.getIdUsuario(),
-                            "Usuario", user.getUsuario(),
+                            "usuario", user.getUsuario(),
                             "rol", user.getRol().getRol(),
                             "authorities", authorities.stream()
                                     .map(GrantedAuthority::getAuthority)
@@ -126,7 +133,6 @@ public class AuthController {
                     ));
         }
     }
-
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
@@ -146,7 +152,4 @@ public class AuthController {
         return ResponseEntity.ok()
                 .body("Logout exitoso");
     }
-
-
-
 }
