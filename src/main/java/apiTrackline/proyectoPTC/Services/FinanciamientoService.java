@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,7 +35,7 @@ public class FinanciamientoService {
     //get sin paginación
     public List<DTOFinanciamiento> getSinPaginacion() {
         List<FinanciamientoEntity> financiamiento = repo.findAll();
-        return empleados.stream()
+        return financiamiento.stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
