@@ -18,12 +18,10 @@ public class DTOClientes {
 
 
     @Size(max = 100, message = "El campo 'nombre' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
-    @NotBlank(message = "El campo 'nombre' no puede estar vacío", groups = {OnCreate.class, OnUpdate.class})
     private String nombre;
 
 
     @Size(max = 100, message = "El campo 'apellido' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
-    @NotBlank(message = "El nombre no puede estar vacio" , groups = {OnCreate.class, OnUpdate.class})
     private String apellido;
 
     @Size(max = 15, message = "El campo 'telefono' debe tener como máximo 15 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
