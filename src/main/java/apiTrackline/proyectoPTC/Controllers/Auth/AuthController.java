@@ -66,11 +66,10 @@ public class AuthController {
                             "HttpOnly; " +
                             "Secure; " +
                             "SameSite=None; " +
-                            "MaxAge=86400; ",
-                            //"Domain=apitrackline-3047cf7af332.herokuapp.com/",
+                            "MaxAge=86400; " +
+                            "Domain=apitrackline-3047cf7af332.herokuapp.com/",
                     token
             );
-
             response.addHeader("Set-Cookie", cookieValue);
             response.addHeader("Access-Control-Expose-Headers", "Set-Cookie");
         }
