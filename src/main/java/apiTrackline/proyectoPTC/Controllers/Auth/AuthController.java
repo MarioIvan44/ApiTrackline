@@ -66,7 +66,7 @@ public class AuthController {
                             "HttpOnly; " +
                             "Secure; " +
                             "SameSite=None; " +
-                            "MaxAge=86400; " +
+                            "MaxAge=900; " +
                             "Domain=apitrackline-3047cf7af332.herokuapp.com",
                     token
             );
