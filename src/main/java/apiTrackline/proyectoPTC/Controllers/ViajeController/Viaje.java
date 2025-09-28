@@ -57,32 +57,6 @@ public class Viaje {
         }
     }
 
-    // GET: localhost:8080/apiViaje/usuario/{idUsuario}?page=0&size=5
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<?> buscarViajesPorUsuario(
-            @PathVariable Long idUsuario,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-            Page<DTOViaje> viajes = service.buscarPorUsuario(idUsuario, pageable);
-
-            return ResponseEntity.ok(Map.of(
-                    "status", "Éxito",
-                    "data", viajes.getContent(),
-                    "currentPage", viajes.getNumber(),
-                    "totalItems", viajes.getTotalElements(),
-                    "totalPages", viajes.getTotalPages()
-            ));
-        } catch (Exception e) {
-            log.error("Error al obtener viajes por usuario", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-                    "status", "Error interno",
-                    "message", "No se pudieron cargar los viajes del usuario"
-            ));
-        }
-    }
-
     //METODO GET CON PAGINACIÓN
     @GetMapping("/datosViaje")
     public ResponseEntity<?> getViajes(

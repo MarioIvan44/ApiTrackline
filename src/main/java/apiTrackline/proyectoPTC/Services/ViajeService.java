@@ -39,11 +39,6 @@ public class ViajeService {
     @Autowired
     private EstadosRepository estadosRepository;
 
-    public Page<DTOViaje> buscarPorUsuario(Long idUsuario, Pageable pageable) {
-        return repo.findByUsuarioId(idUsuario, pageable)
-                .map(this::convertirADTO); // conviertes tu entidad a DTO
-    }
-
 
     // Obtener todos los viajes
     public List<DTOViaje> getAll() {
