@@ -63,8 +63,4 @@ public class ViajeEntity {
     @Column(name = "PROGRESOTRANS")
     private String progresoTrans;
 
-    @ManyToOne
-    @JoinColumn(name = "IDUSUARIO", nullable = false)
-    private UsuarioEntity usuario;
-
 }

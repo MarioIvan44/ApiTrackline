@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ViajeRepository extends JpaRepository<ViajeEntity, Long> {
     Page<ViajeEntity> findAll(Pageable pageable);
 
-    Page<ViajeEntity> findByUsuario(UsuarioEntity usuario, Pageable pageable);
+    Page<ViajeEntity> findByUsuarioId(Long idUsuario, Pageable pageable);
 }

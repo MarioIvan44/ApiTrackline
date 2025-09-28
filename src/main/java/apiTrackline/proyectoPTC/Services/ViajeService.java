@@ -39,20 +39,9 @@ public class ViajeService {
     @Autowired
     private EstadosRepository estadosRepository;
 
-    @Autowired
-    private UsuarioRepository userRepository;
-
-    public Page<DTOViaje> obtenerViajesPorUsuario(String username, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        // buscar usuario por username
-        UsuarioEntity usuario = userRepository.findByUsuario(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        // traer viajes filtrados por ese usuario
-        Page<ViajeEntity> viajes = repo.findByUsuario(usuario, pageable);
-
-        return viajes.map(this::convertirADTO);
+    public Page<DTOViaje> buscarPorUsuario(Long idUsuario, Pageable pageable) {
+        return repo.findByUsuarioId(idUsuario, pageable)
+                .map(this::convertirADTO); // conviertes tu entidad a DTO
     }
 
 

@@ -12,6 +12,9 @@ import apiTrackline.proyectoPTC.Services.ViajeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,21 +57,30 @@ public class Viaje {
         }
     }
 
-    @GetMapping("/misViajes")
-    public ResponseEntity<?> getMisViajes(
+    // GET: localhost:8080/apiViaje/usuario/{idUsuario}?page=0&size=5
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<?> buscarViajesPorUsuario(
+            @PathVariable Long idUsuario,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @AuthenticationPrincipal UsuarioEntity usuario // 🔹 Spring inyecta el usuario autenticado
-    ) {
-        Page<DTOViaje> viajes = service.obtenerViajesPorUsuario(usuario.getUsuario(), page, size);
+            @RequestParam(defaultValue = "5") int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+            Page<DTOViaje> viajes = service.buscarPorUsuario(idUsuario, pageable);
 
-        if (viajes == null || viajes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
-                    "status", "Error",
-                    "message", "No tienes viajes registrados"
+            return ResponseEntity.ok(Map.of(
+                    "status", "Éxito",
+                    "data", viajes.getContent(),
+                    "currentPage", viajes.getNumber(),
+                    "totalItems", viajes.getTotalElements(),
+                    "totalPages", viajes.getTotalPages()
+            ));
+        } catch (Exception e) {
+            log.error("Error al obtener viajes por usuario", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error interno",
+                    "message", "No se pudieron cargar los viajes del usuario"
             ));
         }
-        return ResponseEntity.ok(viajes);
     }
 
     //METODO GET CON PAGINACIÓN
