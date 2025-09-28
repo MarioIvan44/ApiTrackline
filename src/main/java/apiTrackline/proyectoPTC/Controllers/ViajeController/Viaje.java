@@ -1,5 +1,6 @@
 package apiTrackline.proyectoPTC.Controllers.ViajeController;
 
+import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Exceptions.EstadosExceptions.ExceptionOrdenServicioNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.ViajeExceptions.ExceptionViajeNoEncontrado;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,23 @@ public class Viaje {
                     "message", "Error inesperado al buscar viaje por ID"
             ));
         }
+    }
+
+    @GetMapping("/misViajes")
+    public ResponseEntity<?> getMisViajes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @AuthenticationPrincipal UsuarioEntity usuario // 🔹 Spring inyecta el usuario autenticado
+    ) {
+        Page<DTOViaje> viajes = service.obtenerViajesPorUsuario(usuario.getUsuario(), page, size);
+
+        if (viajes == null || viajes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "status", "Error",
+                    "message", "No tienes viajes registrados"
+            ));
+        }
+        return ResponseEntity.ok(viajes);
     }
 
     //METODO GET CON PAGINACIÓN

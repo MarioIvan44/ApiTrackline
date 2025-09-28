@@ -11,10 +11,7 @@ import apiTrackline.proyectoPTC.Exceptions.ViajeExceptions.ExceptionViajeRelacio
 import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOPermisos;
 import apiTrackline.proyectoPTC.Models.DTO.DTOViaje;
-import apiTrackline.proyectoPTC.Repositories.EstadosRepository;
-import apiTrackline.proyectoPTC.Repositories.ViajeRepository;
-import apiTrackline.proyectoPTC.Repositories.OrdenServicioRepository;
-import apiTrackline.proyectoPTC.Repositories.TransporteRepository;
+import apiTrackline.proyectoPTC.Repositories.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,6 +38,23 @@ public class ViajeService {
 
     @Autowired
     private EstadosRepository estadosRepository;
+
+    @Autowired
+    private UsuarioRepository userRepository;
+
+    public Page<DTOViaje> obtenerViajesPorUsuario(String username, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        // buscar usuario por username
+        UsuarioEntity usuario = userRepository.findByUsuario(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // traer viajes filtrados por ese usuario
+        Page<ViajeEntity> viajes = repo.findByUsuario(usuario, pageable);
+
+        return viajes.map(this::convertirADTO);
+    }
+
 
     // Obtener todos los viajes
     public List<DTOViaje> getAll() {
