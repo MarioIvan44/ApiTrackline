@@ -169,7 +169,7 @@ public class SecurityConfig {
                 //ENDPOINTS PARA TIPODATOCONTABLE
                                 .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/obtenerDatoContablePorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/datosContables").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable//dataDatoContable").authenticated()                                .requestMatchers(HttpMethod.POST, "/apiTipoDatoContable/agregarTipoDatoContable").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/dataDatoContable").authenticated()                                .requestMatchers(HttpMethod.POST, "/apiTipoDatoContable/agregarTipoDatoContable").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiTipoDatoContable/actualizarDatoContable/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiTipoDatoContable/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiTipoDatoContable/eliminarDatoContable/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
