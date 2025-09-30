@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiCargos/actualizarCargo/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiCargos/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiCargos/eliminarCargo/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiCargos/dataCargos").authenticated()
 
                 //ENDPOINTS PARA CLIENTES
                                 .requestMatchers(HttpMethod.GET, "/apiClientes/datosClientes").authenticated()
@@ -95,6 +96,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiInfoEmbarque/actualizarInfoEmbarque/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiInfoEmbarque/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiInfoEmbarque/eliminarInfoEmbarque/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiInfoEmbarque/obtenerInfoEmbarquePorId/{id}").authenticated()
 
                 // ENDPOINTS PARA OBSERVACIONES
                                 .requestMatchers(HttpMethod.GET, "/apiObservaciones/obtenerObservacionPorId/{id}").authenticated()
@@ -146,6 +148,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiRecoleccion/actualizarRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiRecoleccion/actualizarParcialmenteRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiRecoleccion/eliminarRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiRecoleccion//obtenerRecoleccionPorId/{id}").authenticated()
 
                 //ENDPOINTS PARA ROLES
                                 .requestMatchers(HttpMethod.GET, "/apiRoles/getRoles").hasAnyAuthority("ROLE_Administrador" , "ROLE_Empleados")
