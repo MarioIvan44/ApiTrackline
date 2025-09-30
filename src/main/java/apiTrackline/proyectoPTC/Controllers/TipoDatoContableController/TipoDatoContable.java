@@ -4,6 +4,7 @@ import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionT
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableRelacionado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTipoDatoContable;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Services.TipoDatoContableService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -23,6 +25,11 @@ public class TipoDatoContable {
 
     @Autowired
     private TipoDatoContableService service;
+
+    @GetMapping("/dataDatoContable")
+    public List<DTOTipoDatoContable> getDatoContable() {
+        return service.getData();
+    }
 
     // MÉTODO GET POR ID
     // RUTA: localhost:8080/apiTipoDatoContable/buscarDatoContablePorID/{id}
