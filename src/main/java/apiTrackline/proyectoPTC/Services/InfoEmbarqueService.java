@@ -1,10 +1,13 @@
 package apiTrackline.proyectoPTC.Services;
 
 import apiTrackline.proyectoPTC.Entities.InfoEmbarqueEntity;
+import apiTrackline.proyectoPTC.Entities.TransporteEntity;
 import apiTrackline.proyectoPTC.Exceptions.InfoEmbarqueExceptions.ExceptionInfoEmbarqueNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.InfoEmbarqueExceptions.ExceptionInfoEmbarqueNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.InfoEmbarqueExceptions.ExceptionInfoEmbarqueRelacionado;
+import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteNoEncontrado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOInfoEmbarque;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransporte;
 import apiTrackline.proyectoPTC.Repositories.InfoEmbarqueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +105,12 @@ public class InfoEmbarqueService {
         if (dto.getVolumen() != null) entity.setVolumen(dto.getVolumen());
 
         return convertirADTO(repo.save(entity));
+    }
+
+    public DTOInfoEmbarque buscarInfoEmbarqueePorId(Long id) {
+        InfoEmbarqueEntity entity = repo.findById(id)
+                .orElseThrow(() -> new ExceptionTransporteNoEncontrado("No se encontró el info embarque con ID: " + id));
+        return convertirADTO(entity);
     }
 
 }

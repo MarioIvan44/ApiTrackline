@@ -3,6 +3,7 @@ package apiTrackline.proyectoPTC.Controllers.InfoEmbarqueController;
 import apiTrackline.proyectoPTC.Exceptions.InfoEmbarqueExceptions.ExceptionInfoEmbarqueNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.InfoEmbarqueExceptions.ExceptionInfoEmbarqueRelacionado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOInfoEmbarque;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransporte;
 import apiTrackline.proyectoPTC.Services.InfoEmbarqueService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class InfoEmbarque {
 
     @Autowired //Inyectamos la clase InfoEmbarqueService
     private InfoEmbarqueService service;
+
+    @GetMapping("/obtenerInfoEmbarquePorId/{id}")
+    public ResponseEntity<DTOInfoEmbarque> obtenerInfoEmbarquePorId(@PathVariable Long id) {
+        DTOInfoEmbarque embarque = service.buscarInfoEmbarqueePorId(id);
+        return ResponseEntity.ok(embarque);
+    }
 
     @GetMapping("/datosInfoEmbarque")
     public ResponseEntity<?> getInfoEmbarques(

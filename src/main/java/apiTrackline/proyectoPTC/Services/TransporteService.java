@@ -155,7 +155,7 @@ public class TransporteService {
 
     public DTOTransporte buscarTransportePorId(Long id) {
         TransporteEntity entity = transporteRepo.findById(id)
-                .orElseThrow(() -> new ExceptionTransporteNoEncontrado("No se encontró el transporte con ID: " + id));
+                .orElseThrow(() -> new ExceptionServicioTransporteNoEncontrado("No se encontró el transporte con ID: " + id));
         return convertirADTO(entity);
     }
 }
