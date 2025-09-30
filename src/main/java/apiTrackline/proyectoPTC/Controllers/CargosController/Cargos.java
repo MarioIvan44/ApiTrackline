@@ -6,6 +6,7 @@ import apiTrackline.proyectoPTC.Exceptions.CargosExceptions.ExceptionCargoRelaci
 import apiTrackline.proyectoPTC.Exceptions.EstadosExceptions.ExceptionOrdenServicioNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableNoEncontrado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOCargos;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Services.CargosService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,12 @@ public class Cargos {
 
     @Autowired
     private CargosService service;
+
+    //get normal
+    @GetMapping("/dataCargos")
+    public List<DTOCargos> getCargos() {
+        return service.getData();
+    }
 
     // MÉTODO GET POR ID
     @GetMapping("/obtenerCargoPorId/{id}")
