@@ -123,4 +123,30 @@ public class JWTUtils {
 
     }
 
+    // Token de recuperación válido por 15 minutos
+    public String createResetToken(String username) {
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecreto));
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("reset", true)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000)) // 15 min
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String validateResetToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecreto));
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        if (claims.get("reset", Boolean.class) == null || !claims.get("reset", Boolean.class)) {
+            throw new RuntimeException("Token inválido");
+        }
+
+        return claims.getSubject();
+    }
 }

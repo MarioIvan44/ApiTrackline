@@ -1,6 +1,8 @@
 package apiTrackline.proyectoPTC.Controllers.Auth;
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
+import apiTrackline.proyectoPTC.Models.DTO.RecuperarPasswordRequest;
+import apiTrackline.proyectoPTC.Models.DTO.ResetPasswordRequest;
 import apiTrackline.proyectoPTC.Services.AuthService;
 import apiTrackline.proyectoPTC.Utils.JWTUtils;
 import jakarta.servlet.http.Cookie;
@@ -66,7 +68,7 @@ public class AuthController {
                             "HttpOnly; " +
                             "Secure; " +
                             "SameSite=None; " +
-                            "MaxAge=900; " +
+                            "MaxAge=86400; " +
                             "Domain=apitrackline-3047cf7af332.herokuapp.com",
                     token
             );
@@ -133,13 +135,55 @@ public class AuthController {
         }
     }
 
+    // Endpoint para pedir recuperación
+    @PostMapping("/recuperar")
+    public ResponseEntity<?> recuperarPassword(RecuperarPasswordRequest request) {
+        Optional<UsuarioEntity> userOpt = service.obtenerUsuario(request.getCorreo());
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Usuario no encontrado"));
+        }
+
+        UsuarioEntity user = userOpt.get();
+
+        // Generar token de reset
+        String resetToken = jwtUtils.createResetToken(user.getUsuario());
+        String link = "https://frontend.com/reset-password?token=" + resetToken;
+
+        // Enviar correo con link
+        service.enviarCorreo(user.getUsuario(), "Recupera tu contraseña", "Haz clic en este link para cambiar tu contraseña: " + link);
+
+        return ResponseEntity.ok(Map.of("message", "Se envió un correo con instrucciones"));
+    }
+
+    // Endpoint para cambiar la contraseña
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(ResetPasswordRequest request) {
+        try {
+            String username = jwtUtils.validateResetToken(request.getToken());
+            Optional<UsuarioEntity> userOpt = service.obtenerUsuario(username);
+
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Usuario no encontrado"));
+            }
+
+            UsuarioEntity user = userOpt.get();
+            service.actualizarPassword(user, request.getNuevaContrasenia());
+
+            return ResponseEntity.ok(Map.of("message", "Contraseña cambiada exitosamente"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Token inválido o expirado"));
+        }
+    }
+
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         // Crear cookie de expiración con SameSite=None
         String cookieValue = "authToken=; Path=/; HttpOnly; Secure; SameSite=None; MaxAge=0; Domain=apitrackline-3047cf7af332.herokuapp.com";
 
         response.addHeader("Set-Cookie", cookieValue);
-        //response.addHeader("Access-Control-Allow-Credentials", "true"); <-- ESTO NO DEBEN AGREGARLO
         response.addHeader("Access-Control-Expose-Headers", "Set-Cookie");
 
         // También agregar headers CORS para la respuesta

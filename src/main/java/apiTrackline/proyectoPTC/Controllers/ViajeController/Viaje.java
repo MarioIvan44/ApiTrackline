@@ -60,6 +60,7 @@ public class Viaje {
     //METODO GET CON PAGINACIÓN
     @GetMapping("/datosViaje")
     public ResponseEntity<?> getViajes(
+            @RequestParam Long idUsuario,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
@@ -77,15 +78,9 @@ public class Viaje {
             ));
         }
 
-        Page<DTOViaje> viajes = service.obtenerViajes(page, size);
-        if (viajes == null || viajes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
-                    "status", "Error",
-                    "message", "No hay viajes registrados"
-            ));
-        }
+        Page<DTOViaje> viajes = service.obtenerViajesPorUsuario(idUsuario, page, size);
         return ResponseEntity.ok(viajes);
-    }
+}
 
     // MÉTODO GET (SIN PAGINACIÓN) - Obtener todos sin paginación
     // RUTA: localhost:8080/apiViaje/obtener
