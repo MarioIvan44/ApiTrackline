@@ -122,6 +122,8 @@ public class JwtCookieAuthFilter extends OncePerRequestFilter {
         return (path.equals("/api/auth/login") && "POST".equals(method)) ||
                 (path.equals("/apiClientes/agregarCliente") && "POST".equals(method)) ||
                 (path.equals("/apiUsuario/postUsuario") && "POST".equals(method)) ||
+                (path.equals("/api/auth/recuperar") && "POST".equals(method)) ||
+                (path.equals("/api/auth/reset-password") && "POST".equals(method)) ||
                 (path.equals("/api/public/") && "GET".equals(method));
     }
 }

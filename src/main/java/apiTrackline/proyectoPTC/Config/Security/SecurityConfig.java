@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST ,  "/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/logout").authenticated()
                         .requestMatchers("/api/auth/me").authenticated()
+                        .requestMatchers("/api/auth/recuperar").permitAll()
+                        .requestMatchers("/api/auth/reset-password").permitAll()
 
                 //ENDPOINTS PARA ADUANA
                                 .requestMatchers(HttpMethod.GET, "/apiAduana/buscarAduanaPorId/{id}").authenticated()
