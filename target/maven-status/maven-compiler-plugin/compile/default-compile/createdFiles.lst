@@ -109,6 +109,7 @@ apiTrackline\proyectoPTC\Exceptions\OrdenEncabezadoExceptions\ExceptionOrdenEnca
 apiTrackline\proyectoPTC\Exceptions\ServicioTransporteExceptions\ExceptionServicioTransporteRelacionado.class
 apiTrackline\proyectoPTC\Controllers\Auth\AuthController.class
 apiTrackline\proyectoPTC\Services\AduanaService.class
+apiTrackline\proyectoPTC\Models\DTO\ResetPasswordRequest.class
 apiTrackline\proyectoPTC\Repositories\FinanciamientoRepository.class
 apiTrackline\proyectoPTC\Config\Cors\CorsConfig.class
 apiTrackline\proyectoPTC\Models\DTO\DTOEstados.class
@@ -240,6 +241,7 @@ apiTrackline\proyectoPTC\Repositories\AduanaRepository.class
 apiTrackline\proyectoPTC\Entities\ClientesEntity.class
 apiTrackline\proyectoPTC\Controllers\TipoFinanciamientosController\TipoFinanciamiento.class
 apiTrackline\proyectoPTC\Services\EstadosService.class
+apiTrackline\proyectoPTC\Models\DTO\RecuperarPasswordRequest.class
 apiTrackline\proyectoPTC\Exceptions\AduanaExceptions\ExceptionTipoServicioNoEncontrado.class
 apiTrackline\proyectoPTC\Exceptions\TipoDatoContableExceptions\ExceptionTipoDatoContableRelacionado.class
 apiTrackline\proyectoPTC\Exceptions\ObservacionesExceptions\ExceptionObservacionNoRegistrada.class

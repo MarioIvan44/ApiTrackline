@@ -148,6 +148,8 @@ C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\pr
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Models\DTO\DTOTransportista.java
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Models\DTO\DTOUsuario.java
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Models\DTO\DTOViaje.java
+C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Models\DTO\RecuperarPasswordRequest.java
+C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Models\DTO\ResetPasswordRequest.java
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\ProyectoPtcApplication.java
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Repositories\AduanaRepository.java
 C:\Users\adrip\OneDrive\Documents\apitracklineFork\src\main\java\apiTrackline\proyectoPTC\Repositories\CargosRepository.java

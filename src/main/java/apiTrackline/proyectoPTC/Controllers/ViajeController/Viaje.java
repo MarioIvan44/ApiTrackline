@@ -58,9 +58,9 @@ public class Viaje {
     }
 
     //METODO GET CON PAGINACIÓN
-    @GetMapping("/datosViaje")
+    @GetMapping("/datosViaje/userId/{id}")
     public ResponseEntity<?> getViajes(
-            @RequestParam Long idUsuario,
+            @PathVariable Long idUsuario,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
