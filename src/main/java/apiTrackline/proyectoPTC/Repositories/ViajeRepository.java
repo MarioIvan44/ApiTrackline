@@ -15,7 +15,7 @@ public interface ViajeRepository extends JpaRepository<ViajeEntity, Long> {
 
     @Query("""
     SELECT v FROM ViajeEntity v
-    JOIN v.ordenServicio o
+    JOIN v.OrdenServicio o
     JOIN o.cliente c
     JOIN c.usuario u
     WHERE u.idUsuario = :idUsuario
