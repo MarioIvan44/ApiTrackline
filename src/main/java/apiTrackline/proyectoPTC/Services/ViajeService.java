@@ -59,12 +59,9 @@ public class ViajeService {
         Pageable pageable = PageRequest.of(page, size);
         Page<ViajeEntity> viajes = repo.findByUsuarioId(idUsuario, pageable);
 
-        if (viajes.isEmpty()) {
-            throw new ExceptionViajeNoEncontrado("No se encontraron viajes para el usuario con id: " + idUsuario);
-        }
 
         return viajes.map(this::convertirADTO);
-}
+    }
 
     // Convertir a DTO
     private DTOViaje convertirADTO(ViajeEntity entity) {
