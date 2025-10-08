@@ -14,11 +14,11 @@ public interface ViajeRepository extends JpaRepository<ViajeEntity, Long> {
     Page<ViajeEntity> findAll(Pageable pageable);
 
     @Query("""
-        SELECT v FROM ViajeEntity v
-        JOIN v.ordenDeServicio o
-        JOIN o.cliente c
-        JOIN c.usuario u
-        WHERE u.idUsuario = :idUsuario
-    """)
+    SELECT v FROM ViajeEntity v
+    JOIN v.ordenServicio o
+    JOIN o.cliente c
+    JOIN c.usuario u
+    WHERE u.idUsuario = :idUsuario
+""")
     Page<ViajeEntity> findByUsuarioId(@Param("idUsuario") Long idUsuario, Pageable pageable);
 }
