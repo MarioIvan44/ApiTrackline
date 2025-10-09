@@ -60,7 +60,4 @@ public class ViajeEntity {
     @Column(name = "PROGRESOTRANS")
     private String progresoTrans;
 
-    @ManyToOne
-    @JoinColumn(name = "IDUSUARIO", referencedColumnName = "IDUSUARIO")
-    private UsuarioEntity usuarioId;
 }
