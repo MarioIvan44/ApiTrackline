@@ -40,6 +40,4 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuarioT", cascade = CascadeType.ALL)
     private List<TransportistaEntity> transportistas;
 
-    @OneToMany(mappedBy = "usuarioId", cascade = CascadeType.ALL)
-    private List<ViajeEntity> viajes;
 }
