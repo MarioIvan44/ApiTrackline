@@ -212,7 +212,7 @@ public class SecurityConfig {
 
                 // ENDPOINTS PARA VIAJE
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/buscarPorId/{id}").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje/userId/{id}").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje/userId/{idUsuario}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/obtener").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiViaje/crear").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiViaje/actualizar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
