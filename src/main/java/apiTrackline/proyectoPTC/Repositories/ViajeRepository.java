@@ -21,4 +21,13 @@ public interface ViajeRepository extends JpaRepository<ViajeEntity, Long> {
     WHERE u.idUsuario = :idUsuario
 """)
     Page<ViajeEntity> findByUsuarioId(@Param("idUsuario") Long idUsuario, Pageable pageable);
+
+    @Query("""
+    SELECT v FROM ViajeEntity v
+    JOIN v.transporte t
+    JOIN t.transportista tr
+    JOIN tr.usuarioT u
+    WHERE u.idUsuario = :idUsuario
+""")
+    Page<ViajeEntity> findByTransportistaUsuarioId(@Param("idUsuario") Long idUsuario, Pageable pageable);
 }

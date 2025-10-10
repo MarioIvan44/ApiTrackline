@@ -57,6 +57,31 @@ public class Viaje {
         }
     }
 
+    // NUEVO MÉTODO GET CON PAGINACIÓN - VIAJES POR TRANSPORTISTA
+    @GetMapping("/datosViaje/transportistaId/{idUsuario}")
+    public ResponseEntity<?> getViajesPorTransportista(
+            @PathVariable Long idUsuario,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        if (page < 0) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "Error de validación",
+                    "message", "El número de página no puede ser negativo"
+            ));
+        }
+
+        if (size <= 0 || size > 50) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "Error de validación",
+                    "message", "El tamaño de la página debe estar entre 1 y 50"
+            ));
+        }
+
+        Page<DTOViaje> viajes = service.obtenerViajesPorTransportista(idUsuario, page, size);
+        return ResponseEntity.ok(viajes);
+    }
+
     //METODO GET CON PAGINACIÓN
     @GetMapping("/datosViaje/userId/{idUsuario}")
     public ResponseEntity<?> getViajes(

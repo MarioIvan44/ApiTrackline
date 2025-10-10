@@ -269,4 +269,10 @@ public class ViajeService {
                 .orElseThrow(() -> new ExceptionViajeNoEncontrado("No se encontró viaje con id: " + id));
         return convertirADTO(entity);
     }
+
+    public Page<DTOViaje> obtenerViajesPorTransportista(Long idUsuario, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ViajeEntity> viajes = repo.findByTransportistaUsuarioId(idUsuario, pageable);
+        return viajes.map(this::convertirADTO);
+    }
 }

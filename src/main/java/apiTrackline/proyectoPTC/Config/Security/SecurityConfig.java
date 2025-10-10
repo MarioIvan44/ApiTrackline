@@ -219,6 +219,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/apiViaje/actualizarParcial/{id}").hasAuthority("ROLE_Transportista")
                                 .requestMatchers(HttpMethod.DELETE, "/apiViaje/eliminar/{id}").hasAuthority("ROLE_Administrador")
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/usuario/{idUsuario}").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje/transportistaId/{idUsuario}").authenticated()
 
                          .anyRequest().authenticated()
                 )
