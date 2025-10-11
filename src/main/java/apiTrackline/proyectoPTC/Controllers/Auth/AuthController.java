@@ -137,7 +137,7 @@ public class AuthController {
 
     // Endpoint para pedir recuperación
     @PostMapping("/recuperar")
-    public ResponseEntity<?> recuperarPassword(RecuperarPasswordRequest request) {
+    public ResponseEntity<?> recuperarPassword( @RequestBody RecuperarPasswordRequest request) {
         Optional<UsuarioEntity> userOpt = service.obtenerUsuario(request.getCorreo());
 
         if (userOpt.isEmpty()) {
@@ -159,7 +159,7 @@ public class AuthController {
 
     // Endpoint para cambiar la contraseña
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(ResetPasswordRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
         try {
             String username = jwtUtils.validateResetToken(request.getToken());
             Optional<UsuarioEntity> userOpt = service.obtenerUsuario(username);
