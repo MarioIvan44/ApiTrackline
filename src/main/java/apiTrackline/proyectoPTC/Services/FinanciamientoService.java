@@ -5,7 +5,9 @@ import apiTrackline.proyectoPTC.Exceptions.AduanaExceptions.ExceptionAduanaNoReg
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFinanciamientoNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFinanciamientoRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionTipoFinanciamientoNoEncontrado;
+import apiTrackline.proyectoPTC.Exceptions.RecoleccionExceptions.ExceptionRecoleccionNoEncontrado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOFinanciamiento;
+import apiTrackline.proyectoPTC.Models.DTO.DTORecoleccion;
 import apiTrackline.proyectoPTC.Repositories.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,13 @@ public class FinanciamientoService {
         return financiamiento.stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
+    }
+
+    // Buscar financiamiento por ID
+    public DTOFinanciamiento buscarFinanciamientoPorId(Long id) {
+        FinanciamientoEntity entity = repo.findById(id)
+                .orElseThrow(() -> new ExceptionFinanciamientoNoEncontrado("No se encontró financiamiento con ID: " + id));
+        return convertirADTO(entity);
     }
 
     // LISTAR con paginación

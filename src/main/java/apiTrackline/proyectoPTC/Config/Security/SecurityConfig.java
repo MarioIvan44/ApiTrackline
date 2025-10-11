@@ -183,6 +183,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiTipoF/actualizar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiTipoF/patch/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiTipoF/eliminar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiTipoF/obtenerFinanciamientoPorId/{id}").authenticated()
 
                 //ENDPOINTS PARA TIPO SERVICIO
                                 .requestMatchers(HttpMethod.GET, "/apiTipoServicio/data").authenticated()
