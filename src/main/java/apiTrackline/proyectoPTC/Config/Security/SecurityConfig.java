@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/me").authenticated()
                         .requestMatchers("/api/auth/recuperar").permitAll()
                         .requestMatchers("/api/auth/reset-password").permitAll()
+                        .requestMatchers("/api/auth/reset-redirect").permitAll()
 
                 //ENDPOINTS PARA ADUANA
                                 .requestMatchers(HttpMethod.GET, "/apiAduana/buscarAduanaPorId/{id}").authenticated()

@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -149,13 +150,22 @@ public class AuthController {
 
         // Generar token de reset
         String resetToken = jwtUtils.createResetToken(user.getUsuario());
-        String link = "trackline://reset-password?token=" + resetToken;
+        String link = "https://trackline.app/reset-redirect?token=" + resetToken;
 
         // Enviar correo con link
         service.enviarCorreo(request.getCorreo(), "Recupera tu contraseña",
                 "Haz clic en este enlace para restablecer tu contraseña: " + link);
 
         return ResponseEntity.ok(Map.of("message", "Se envió un correo con las instrucciones"));
+    }
+
+    @GetMapping("/reset-redirect")
+    public ResponseEntity<Void> redirectToApp(@RequestParam String token) {
+        // Redirige a tu esquema personalizado
+        URI redirectUri = URI.create("trackline://reset-password?token=" + token);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(redirectUri)
+               .build();
     }
 
 
