@@ -49,19 +49,18 @@ public class AuthService {
     }
 
     public Optional<UsuarioEntity> obtenerUsuarioPorCorreo(String correo) {
-        // Buscar en clientes directamente
+        // Buscar cliente
         Optional<ClientesEntity> clienteOpt = clientesRepository.findByCorreo(correo);
         if (clienteOpt.isPresent()) {
             return Optional.ofNullable(clienteOpt.get().getUsuario());
         }
 
-        // Buscar en transportistas directamente
+        // Buscar transportista
         Optional<TransportistaEntity> transpOpt = transportistaRepository.findByCorreo(correo);
         if (transpOpt.isPresent()) {
             return Optional.ofNullable(transpOpt.get().getUsuarioT());
         }
 
-        // Si no se encuentra en ninguno, devolver vacío
         return Optional.empty();
     }
 
