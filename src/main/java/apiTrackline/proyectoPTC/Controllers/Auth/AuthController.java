@@ -137,12 +137,12 @@ public class AuthController {
 
     // Endpoint para pedir recuperación
     @PostMapping("/recuperar")
-    public ResponseEntity<?> recuperarPassword( @RequestBody RecuperarPasswordRequest request) {
-        Optional<UsuarioEntity> userOpt = service.obtenerUsuario(request.getCorreo());
+    public ResponseEntity<?> recuperarPassword(@RequestBody RecuperarPasswordRequest request) {
+        Optional<UsuarioEntity> userOpt = service.obtenerUsuarioPorCorreo(request.getCorreo());
 
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("message", "Usuario no encontrado"));
+                    .body(Map.of("message", "No existe ningún usuario con ese correo"));
         }
 
         UsuarioEntity user = userOpt.get();
@@ -152,10 +152,12 @@ public class AuthController {
         String link = "https://frontend.com/reset-password?token=" + resetToken;
 
         // Enviar correo con link
-        service.enviarCorreo(user.getUsuario(), "Recupera tu contraseña", "Haz clic en este link para cambiar tu contraseña: " + link);
+        service.enviarCorreo(request.getCorreo(), "Recupera tu contraseña",
+                "Haz clic en este enlace para restablecer tu contraseña: " + link);
 
-        return ResponseEntity.ok(Map.of("message", "Se envió un correo con instrucciones"));
+        return ResponseEntity.ok(Map.of("message", "Se envió un correo con las instrucciones"));
     }
+
 
     // Endpoint para cambiar la contraseña
     @PostMapping("/reset-password")
@@ -165,7 +167,8 @@ public class AuthController {
             Optional<UsuarioEntity> userOpt = service.obtenerUsuario(username);
 
             if (userOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Usuario no encontrado"));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Usuario no encontrado"));
             }
 
             UsuarioEntity user = userOpt.get();
@@ -173,7 +176,8 @@ public class AuthController {
 
             return ResponseEntity.ok(Map.of("message", "Contraseña cambiada exitosamente"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Token inválido o expirado"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Token inválido o expirado"));
         }
     }
 

@@ -1,6 +1,8 @@
 package apiTrackline.proyectoPTC.Services;
 
 import apiTrackline.proyectoPTC.Config.Argon2.Argon2Password;
+import apiTrackline.proyectoPTC.Entities.ClientesEntity;
+import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
 import apiTrackline.proyectoPTC.Repositories.UsuarioRepository;
@@ -36,6 +38,30 @@ public class AuthService {
     public Optional<UsuarioEntity> obtenerUsuario(String usuario){
         Optional<UsuarioEntity> userOpt = repo.findByUsuario(usuario);
         return (userOpt != null) ? userOpt : null;
+    }
+
+    public Optional<UsuarioEntity> obtenerUsuarioPorCorreo(String correo) {
+        // Buscar primero en clientes
+        Optional<ClientesEntity> clienteOpt = clientesRepository.findAll()
+                .stream()
+                .filter(c -> c.getCorreo() != null && c.getCorreo().equalsIgnoreCase(correo))
+                .findFirst();
+
+        if (clienteOpt.isPresent()) {
+            return Optional.ofNullable(clienteOpt.get().getUsuario());
+        }
+
+        // Si no existe en clientes, buscar en transportistas
+        Optional<TransportistaEntity> transpOpt = transportistaRepository.findAll()
+                .stream()
+                .filter(t -> t.getCorreo() != null && t.getCorreo().equalsIgnoreCase(correo))
+                .findFirst();
+
+        if (transpOpt.isPresent()) {
+            return Optional.ofNullable(transpOpt.get().getUsuarioT());
+        }
+
+        return Optional.empty();
     }
 
     // AuthService.java
