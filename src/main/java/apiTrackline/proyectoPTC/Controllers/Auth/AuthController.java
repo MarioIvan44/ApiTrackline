@@ -149,7 +149,7 @@ public class AuthController {
 
         // Generar token de reset
         String resetToken = jwtUtils.createResetToken(user.getUsuario());
-        String link = "http://localhost/MOVILQUESISIRVE/CambiarContraseña.html" + resetToken;
+        String link = "http://localhost/MOVILQUESISIRVE/CambiarContraseña.html?token=" + resetToken;
 
         // Enviar correo con link
         service.enviarCorreo(request.getCorreo(), "Recupera tu contraseña",
