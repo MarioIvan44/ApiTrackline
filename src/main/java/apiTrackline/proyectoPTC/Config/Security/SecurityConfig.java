@@ -139,10 +139,12 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "/apiPermisos/obtenerPermisoPorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiPermisos/datosPermiso").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiPermisos/getPermisos").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiPermisos/agregarPermiso").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiPermisos/actualizarPermiso/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiPermisos/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiPermisos/eliminarPermiso/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+
 
                 // ENDPOINTS PARA RECOLECCIÓN
                                 .requestMatchers(HttpMethod.GET, "/apiRecoleccion/obtenerDatosPaginados").authenticated()
