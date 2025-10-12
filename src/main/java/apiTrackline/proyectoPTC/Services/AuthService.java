@@ -5,6 +5,8 @@ import apiTrackline.proyectoPTC.Entities.ClientesEntity;
 import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
+import apiTrackline.proyectoPTC.Repositories.ClientesRepository;
+import apiTrackline.proyectoPTC.Repositories.TransportistaRepository;
 import apiTrackline.proyectoPTC.Repositories.UsuarioRepository;
 import apiTrackline.proyectoPTC.Utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,12 @@ public class AuthService {
 
     @Autowired
     private Argon2Password argon2Password;
+
+    @Autowired
+    private ClientesRepository clientesRepository;
+
+    @Autowired
+    private TransportistaRepository transportistaRepository;
 
     public boolean Login(String Usuario, String contrasena){
         Argon2Password objHash = new Argon2Password();
