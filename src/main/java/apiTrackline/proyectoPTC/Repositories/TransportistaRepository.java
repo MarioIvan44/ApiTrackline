@@ -6,9 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TransportistaRepository extends JpaRepository<TransportistaEntity, Long> {
     boolean existsByUsuarioT_IdUsuario(Long idUsuario);
     boolean existsByUsuarioT_IdUsuarioAndIdTransportistaNot(Long idUsuario, Long idUsuarioActual);
     Page<TransportistaEntity> findAll(Pageable pageable);
+
+    Optional<TransportistaEntity> findByCorreo(String correo);
 }
