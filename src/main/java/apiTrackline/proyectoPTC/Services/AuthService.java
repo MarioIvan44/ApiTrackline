@@ -12,6 +12,9 @@ import apiTrackline.proyectoPTC.Repositories.TransportistaRepository;
 import apiTrackline.proyectoPTC.Repositories.UsuarioRepository;
 import apiTrackline.proyectoPTC.Utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,6 +36,12 @@ public class AuthService {
 
     @Autowired
     private TransporteRepository transporteRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String remitente;
 
     public boolean Login(String Usuario, String contrasena){
         Argon2Password objHash = new Argon2Password();
@@ -84,12 +93,19 @@ public class AuthService {
 
     // Enviar correo usando Gmail
     public void enviarCorreo(String destinatario, String asunto, String mensaje) {
-        // Configuración básica JavaMailSender
-        // Asegúrate de tener dependencias y propiedades en application.properties
-        // spring.mail.host=smtp.gmail.com
-        // spring.mail.port=587
-        // spring.mail.username=TracklineSV@gmail.com
-        // spring.mail.password=Trackline1768$
+        try {
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setFrom(remitente);
+            email.setTo(destinatario);
+            email.setSubject(asunto);
+            email.setText(mensaje);
+            mailSender.send(email);
+
+            System.out.println("Correo enviado correctamente a: " + destinatario);
+        } catch (Exception e) {
+            System.err.println(" Error al enviar el correo: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
