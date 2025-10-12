@@ -4,6 +4,7 @@ import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoNo
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoRelacionado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOPermisos;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Services.PermisosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,6 +47,12 @@ public class Permisos {
                     "message", "Error inesperado al buscar permiso por ID"
             ));
         }
+    }
+
+    //GET NORMAL
+    @GetMapping("/getPermisos")
+    public List<DTOPermisos> getPermisos() {
+        return service.getData();
     }
 
     // MÉTODO GET - Consultar todos los permisos con paginación
