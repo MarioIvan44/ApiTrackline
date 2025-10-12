@@ -149,7 +149,7 @@ public class AuthController {
 
         // Generar token de reset
         String resetToken = jwtUtils.createResetToken(user.getUsuario());
-        String link = "https://frontend.com/reset-password?token=" + resetToken;
+        String link = "https://apitrackline-3047cf7af332.herokuapp.com/reset-password?token=" + resetToken;
 
         // Enviar correo con link
         service.enviarCorreo(request.getCorreo(), "Recupera tu contraseña",
