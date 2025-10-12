@@ -2,10 +2,12 @@ package apiTrackline.proyectoPTC.Services;
 
 import apiTrackline.proyectoPTC.Config.Argon2.Argon2Password;
 import apiTrackline.proyectoPTC.Entities.ClientesEntity;
+import apiTrackline.proyectoPTC.Entities.TransporteEntity;
 import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
 import apiTrackline.proyectoPTC.Repositories.ClientesRepository;
+import apiTrackline.proyectoPTC.Repositories.TransporteRepository;
 import apiTrackline.proyectoPTC.Repositories.TransportistaRepository;
 import apiTrackline.proyectoPTC.Repositories.UsuarioRepository;
 import apiTrackline.proyectoPTC.Utils.PasswordGenerator;
@@ -28,6 +30,9 @@ public class AuthService {
 
     @Autowired
     private TransportistaRepository transportistaRepository;
+
+    @Autowired
+    private TransporteRepository transporteRepository;
 
     public boolean Login(String Usuario, String contrasena){
         Argon2Password objHash = new Argon2Password();
@@ -59,6 +64,12 @@ public class AuthService {
         Optional<TransportistaEntity> transpOpt = transportistaRepository.findByCorreo(correo);
         if (transpOpt.isPresent()) {
             return Optional.ofNullable(transpOpt.get().getUsuarioT());
+        }
+
+        // Buscar transporte a través del transportista
+        Optional<TransporteEntity> transporteOpt = transporteRepository.findByTransportistaCorreo(correo);
+        if (transporteOpt.isPresent()) {
+            return Optional.ofNullable(transporteOpt.get().getTransportista().getUsuarioT());
         }
 
         return Optional.empty();
