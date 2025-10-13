@@ -55,6 +55,7 @@ public class SecurityConfig {
                 //ENDPOINTS PARA CARGOS
                                 .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerCargoPorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerDatos").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerCargosPorOrden/{idOrdenServicio}").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiCargos/agregarCargo").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiCargos/actualizarCargo/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiCargos/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")

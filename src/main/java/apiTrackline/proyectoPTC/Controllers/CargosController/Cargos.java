@@ -88,6 +88,31 @@ public class Cargos {
         return ResponseEntity.ok(cargos);
     }
 
+    // 🔹 MÉTODO GET: Obtener todos los cargos por idOrdenServicio
+    // RUTA: localhost:8080/apiCargos/obtenerCargosPorOrden/{idOrdenServicio}
+    @GetMapping("/obtenerCargosPorOrden/{idOrdenServicio}")
+    public ResponseEntity<?> obtenerCargosPorOrden(@PathVariable Long idOrdenServicio) {
+        try {
+            List<DTOCargos> cargos = service.obtenerCargosPorOrden(idOrdenServicio);
+            if (cargos == null || cargos.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                        "status", "Error",
+                        "message", "No hay cargos asociados a esta orden de servicio"
+                ));
+            }
+            return ResponseEntity.ok(Map.of(
+                    "status", "Éxito",
+                    "data", cargos
+            ));
+        } catch (Exception e) {
+            log.error("Error al obtener los cargos por orden de servicio", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error interno",
+                    "message", "Error al obtener los cargos por orden de servicio"
+            ));
+        }
+    }
+
     // MÉTODO POST
     @PostMapping("/agregarCargo")
     public ResponseEntity<?> agregarCargo(@Validated(DTOCargos.OnCreate.class) @RequestBody DTOCargos dto) {

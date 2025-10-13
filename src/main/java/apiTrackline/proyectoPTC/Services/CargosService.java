@@ -54,6 +54,13 @@ public class CargosService {
         return pageEntity.map(this::convertirADTO);
     }
 
+    public List<DTOCargos> obtenerCargosPorOrden(Long idOrdenServicio) {
+        return repo.findByOrdenServicioCargos_IdOrdenServicio(idOrdenServicio)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
+    }
+
     // Buscar por ID
     public DTOCargos buscarCargoPorId(Long id) {
         CargosEntity entity = repo.findById(id)
