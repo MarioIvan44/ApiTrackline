@@ -160,12 +160,38 @@ public class AuthController {
     }
 
     @GetMapping("/reset-redirect")
-    public ResponseEntity<Void> redirectToApp(@RequestParam String token) {
-        // Redirige a tu esquema personalizado
-        URI redirectUri = URI.create("trackline://reset-password?token=" + token);
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(redirectUri)
-               .build();
+    public ResponseEntity<String> redirectToApp(@RequestParam String token) {
+        String deepLink = "trackline://reset-password?token=" + token;
+
+        String html = """
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Abriendo TrackLine...</title>
+            <script>
+                // Intentar abrir la app
+                window.onload = function() {
+                    window.location = '%s';
+                    // Si después de 2s no abre, mostrar botón de fallback
+                    setTimeout(function() {
+                        document.getElementById('fallback').style.display = 'block';
+                    }, 2000);
+                };
+            </script>
+        </head>
+        <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+            <h2>Abriendo la app TrackLine...</h2>
+            <p>Si no se abre automáticamente, toca el siguiente botón:</p>
+            <a id="fallback" href="%s" style="display:none; background-color:#007BFF; color:white; padding:10px 20px; border-radius:8px; text-decoration:none;">Abrir TrackLine</a>
+        </body>
+        </html>
+        """.formatted(deepLink, deepLink);
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "text/html")
+                .body(html);
     }
 
 
