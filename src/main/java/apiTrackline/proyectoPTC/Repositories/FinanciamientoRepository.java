@@ -13,6 +13,4 @@ import java.util.List;
 @Repository
 public interface FinanciamientoRepository extends JpaRepository<FinanciamientoEntity, Long> {
     Page<FinanciamientoEntity> findAll(Pageable pageable);
-
-    List<FinanciamientoEntity> findByOrdenServicioFinanciamientos_IdOrdenServicio(Long idOrdenServicio);
 }

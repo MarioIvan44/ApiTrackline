@@ -57,13 +57,6 @@ public class FinanciamientoService {
         return pageEntity.map(this::convertirADTO);
     }
 
-    public List<DTOFinanciamiento> buscarFinanciamientosPorOrden(Long idOrdenServicio) {
-        return repo.findByOrdenServicioFinanciamientos_IdOrdenServicio(idOrdenServicio)
-                .stream()
-                .map(this::convertirADTO)
-                .toList();
-    }
-
     // Convertir entidad a DTO
     private DTOFinanciamiento convertirADTO(FinanciamientoEntity entity) {
         DTOFinanciamiento dto = new DTOFinanciamiento();
