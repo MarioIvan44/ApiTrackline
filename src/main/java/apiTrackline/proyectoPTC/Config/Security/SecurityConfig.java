@@ -89,6 +89,7 @@ public class SecurityConfig {
 
                 //ENDPOINTS PARA FINANCIAMIENTO
                                 .requestMatchers(HttpMethod.GET, "/apiFinanciamiento/obtenerDatos").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiFinanciamiento/obtenerFinanciamientosPorOrden/{idOrdenServicio}").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiFinanciamiento/agregarFinanciamiento").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiFinanciamiento/actualizarFinanciamiento/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiFinanciamiento/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")

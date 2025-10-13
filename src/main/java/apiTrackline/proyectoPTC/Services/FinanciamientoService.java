@@ -6,6 +6,7 @@ import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFin
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFinanciamientoRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionTipoFinanciamientoNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.RecoleccionExceptions.ExceptionRecoleccionNoEncontrado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOCargos;
 import apiTrackline.proyectoPTC.Models.DTO.DTOFinanciamiento;
 import apiTrackline.proyectoPTC.Models.DTO.DTORecoleccion;
 import apiTrackline.proyectoPTC.Repositories.*;
@@ -54,6 +55,13 @@ public class FinanciamientoService {
         Pageable pageable = PageRequest.of(page, size);
         Page<FinanciamientoEntity> pageEntity = repo.findAll(pageable);
         return pageEntity.map(this::convertirADTO);
+    }
+
+    public List<DTOFinanciamiento> buscarFinanciamientosPorOrden(Long idOrdenServicio) {
+        return repo.findByOrdenServicioFinanciamientos_IdOrdenServicio(idOrdenServicio)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
     }
 
     // Convertir entidad a DTO

@@ -77,6 +77,31 @@ public class Financiamiento {
         return ResponseEntity.ok(financiamiento);
     }
 
+    @GetMapping("/obtenerFinanciamientosPorOrden/{idOrdenServicio}")
+    public ResponseEntity<?> obtenerFinanciamientosPorOrden(@PathVariable Long idOrdenServicio) {
+        try {
+            List<DTOFinanciamiento> financiamientos = service.buscarFinanciamientosPorOrden(idOrdenServicio);
+
+            if (financiamientos == null || financiamientos.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                        "status", "Error",
+                        "message", "No se encontraron financiamientos para esta orden"
+                ));
+            }
+
+            return ResponseEntity.ok(Map.of(
+                    "status", "Éxito",
+                    "data", financiamientos
+            ));
+        } catch (Exception e) {
+            log.error("Error al obtener los financiamientos por orden", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error no controlado",
+                    "message", "Error inesperado al obtener los financiamientos de la orden"
+            ));
+        }
+    }
+
     // MÉTODO POST
     @PostMapping("/agregarFinanciamiento")
     public ResponseEntity<?> agregarFinanciamiento(@Validated(DTOFinanciamiento.OnCreate.class) @RequestBody DTOFinanciamiento dto) {
