@@ -31,11 +31,6 @@ public class DTOClientes {
 
 
     @Email
-    @Pattern(
-            regexp = "^[\\w.%+-]+@(gmail\\.com|yahoo\\.com|outlook\\.com)$",
-            message = "El correo solo puede ser de dominio @gmail.com, @yahoo.com o @outlook.com",
-            groups = {OnCreate.class, OnUpdate.class, OnPatch.class}
-    )
     @Size(max = 100, message = "El campo 'correo' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
     private String correo;
 
