@@ -13,9 +13,6 @@ import java.time.LocalDateTime;
 public class ViajeEntity {
 
     @Id
-    //generator: Generador en código Java
-    //name: Nombre del generador en el código Java
-    //sequenceName: Nombre de la secuencia en oracle
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "viajeSeq")
     @SequenceGenerator(name = "viajeSeq", sequenceName = "SEQ_ID_VIAJE", allocationSize = 1)
     @Column(name = "IDVIAJE")
@@ -62,4 +59,5 @@ public class ViajeEntity {
 
     @Column(name = "PROGRESOTRANS")
     private String progresoTrans;
+
 }

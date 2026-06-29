@@ -4,6 +4,7 @@ import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.Exceptio
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransportistaNoEncontrado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTransporte;
 import apiTrackline.proyectoPTC.Services.TransporteService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -29,6 +31,21 @@ public class Transporte {
     public ResponseEntity<DTOTransporte> obtenerTransportePorId(@PathVariable Long id) {
         DTOTransporte transporte = service.buscarTransportePorId(id);
         return ResponseEntity.ok(transporte);
+    }
+
+    @GetMapping("/getTransporte")
+    public ResponseEntity<?> obtenerTransporte(){
+        try {
+            List<DTOTransporte> transportes = service.obtenerSinPaginacion();
+            return ResponseEntity.ok(transportes);
+        }
+        catch (Exception e) {
+            log.error("Error al obtener transportes", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error",
+                    "message", "Error no controlado al obtener transportes"
+            ));
+        }
     }
 
     @GetMapping("/get")

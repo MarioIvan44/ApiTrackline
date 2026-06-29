@@ -40,6 +40,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST ,  "/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/logout").authenticated()
                         .requestMatchers("/api/auth/me").authenticated()
+                        .requestMatchers("/api/auth/recuperar").permitAll()
+                        .requestMatchers("/api/auth/reset-password").permitAll()
+                        .requestMatchers("/api/auth/reset-redirect").permitAll()
 
                 //ENDPOINTS PARA ADUANA
                                 .requestMatchers(HttpMethod.GET, "/apiAduana/buscarAduanaPorId/{id}").authenticated()
@@ -52,10 +55,12 @@ public class SecurityConfig {
                 //ENDPOINTS PARA CARGOS
                                 .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerCargoPorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerDatos").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiCargos/obtenerCargosPorOrden/{idOrdenServicio}").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiCargos/agregarCargo").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiCargos/actualizarCargo/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiCargos/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiCargos/eliminarCargo/{id}").hasAnyAuthority("ROLE_Administrador" ,  "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiCargos/dataCargos").authenticated()
 
                 //ENDPOINTS PARA CLIENTES
                                 .requestMatchers(HttpMethod.GET, "/apiClientes/datosClientes").authenticated()
@@ -95,6 +100,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiInfoEmbarque/actualizarInfoEmbarque/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiInfoEmbarque/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiInfoEmbarque/eliminarInfoEmbarque/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiInfoEmbarque/obtenerInfoEmbarquePorId/{id}").authenticated()
 
                 // ENDPOINTS PARA OBSERVACIONES
                                 .requestMatchers(HttpMethod.GET, "/apiObservaciones/obtenerObservacionPorId/{id}").authenticated()
@@ -135,10 +141,12 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "/apiPermisos/obtenerPermisoPorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiPermisos/datosPermiso").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiPermisos/getPermisos").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiPermisos/agregarPermiso").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiPermisos/actualizarPermiso/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiPermisos/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiPermisos/eliminarPermiso/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+
 
                 // ENDPOINTS PARA RECOLECCIÓN
                                 .requestMatchers(HttpMethod.GET, "/apiRecoleccion/obtenerDatosPaginados").authenticated()
@@ -146,6 +154,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiRecoleccion/actualizarRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiRecoleccion/actualizarParcialmenteRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiRecoleccion/eliminarRecoleccion/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiRecoleccion//obtenerRecoleccionPorId/{id}").authenticated()
 
                 //ENDPOINTS PARA ROLES
                                 .requestMatchers(HttpMethod.GET, "/apiRoles/getRoles").hasAnyAuthority("ROLE_Administrador" , "ROLE_Empleados")
@@ -166,7 +175,7 @@ public class SecurityConfig {
                 //ENDPOINTS PARA TIPODATOCONTABLE
                                 .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/obtenerDatoContablePorId/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/datosContables").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/apiTipoDatoContable/agregarTipoDatoContable").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiTipoDatoContable/dataDatoContable").authenticated()                                .requestMatchers(HttpMethod.POST, "/apiTipoDatoContable/agregarTipoDatoContable").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiTipoDatoContable/actualizarDatoContable/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiTipoDatoContable/actualizarParcialmente/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiTipoDatoContable/eliminarDatoContable/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
@@ -178,6 +187,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/apiTipoF/actualizar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiTipoF/patch/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.DELETE, "/apiTipoF/eliminar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
+                                .requestMatchers(HttpMethod.GET, "/apiTipoF/obtenerFinanciamientoPorId/{id}").authenticated()
 
                 //ENDPOINTS PARA TIPO SERVICIO
                                 .requestMatchers(HttpMethod.GET, "/apiTipoServicio/data").authenticated()
@@ -207,12 +217,14 @@ public class SecurityConfig {
 
                 // ENDPOINTS PARA VIAJE
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/buscarPorId/{id}").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje/userId/{idUsuario}").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/apiViaje/obtener").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/apiViaje/crear").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PUT, "/apiViaje/actualizar/{id}").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
                                 .requestMatchers(HttpMethod.PATCH, "/apiViaje/actualizarParcial/{id}").hasAuthority("ROLE_Transportista")
                                 .requestMatchers(HttpMethod.DELETE, "/apiViaje/eliminar/{id}").hasAuthority("ROLE_Administrador")
+                                .requestMatchers(HttpMethod.GET, "/apiViaje/usuario/{idUsuario}").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/apiViaje/datosViaje/transportistaId/{idUsuario}").authenticated()
 
                          .anyRequest().authenticated()
                 )

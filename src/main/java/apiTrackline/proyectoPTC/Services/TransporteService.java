@@ -1,5 +1,6 @@
 package apiTrackline.proyectoPTC.Services;
 
+import apiTrackline.proyectoPTC.Entities.ClientesEntity;
 import apiTrackline.proyectoPTC.Entities.ServicioTransporteEntity;
 import apiTrackline.proyectoPTC.Entities.TransporteEntity;
 import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.ExceptionServicioTransporteNoEncontrado;
@@ -7,6 +8,7 @@ import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTranspo
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransportistaNoEncontrado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTransporte;
 import apiTrackline.proyectoPTC.Repositories.ServicioTransporteRepository;
 import apiTrackline.proyectoPTC.Repositories.TransporteRepository;
@@ -19,6 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,6 +38,13 @@ public class TransporteService {
 
     @Autowired
     private ServicioTransporteRepository servicioTransporteRepo;
+
+    public List<DTOTransporte> obtenerSinPaginacion(){
+        List<TransporteEntity> transportes = transporteRepo.findAll();
+        return transportes.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
 
     public Page<DTOTransporte> obtenerTransportes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -143,7 +155,7 @@ public class TransporteService {
 
     public DTOTransporte buscarTransportePorId(Long id) {
         TransporteEntity entity = transporteRepo.findById(id)
-                .orElseThrow(() -> new ExceptionTransporteNoEncontrado("No se encontró el transporte con ID: " + id));
+                .orElseThrow(() -> new ExceptionServicioTransporteNoEncontrado("No se encontró el transporte con ID: " + id));
         return convertirADTO(entity);
     }
 }

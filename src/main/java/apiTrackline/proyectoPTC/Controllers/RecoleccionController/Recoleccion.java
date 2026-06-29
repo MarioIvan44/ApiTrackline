@@ -3,6 +3,7 @@ package apiTrackline.proyectoPTC.Controllers.RecoleccionController;
 import apiTrackline.proyectoPTC.Exceptions.RecoleccionExceptions.ExceptionRecoleccionNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.RecoleccionExceptions.ExceptionRecoleccionNoRegistrada;
 import apiTrackline.proyectoPTC.Exceptions.RecoleccionExceptions.ExceptionRecoleccionRelacionada;
+import apiTrackline.proyectoPTC.Models.DTO.DTOInfoEmbarque;
 import apiTrackline.proyectoPTC.Models.DTO.DTORecoleccion;
 import apiTrackline.proyectoPTC.Services.RecoleccionService;
 import jakarta.validation.Valid;
@@ -25,6 +26,12 @@ public class Recoleccion {
 
     @Autowired
     private RecoleccionService service;
+
+    @GetMapping("/obtenerRecoleccionPorId/{id}")
+    public ResponseEntity<DTORecoleccion> obtenerRecoleccionPorId(@PathVariable Long id) {
+        DTORecoleccion recoleccion = service.buscarRecoleccionPorId(id);
+        return ResponseEntity.ok(recoleccion);
+    }
 
     // MÉTODO GET (PAGINADO)
     // RUTA: localhost:8080/apiRecoleccion/obtenerDatosPaginados?page=0&size=5

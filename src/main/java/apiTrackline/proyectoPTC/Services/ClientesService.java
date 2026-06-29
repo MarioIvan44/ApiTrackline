@@ -34,6 +34,7 @@ public class ClientesService {
                 .map(this::convertirDTO)
                 .collect(Collectors.toList());
     }
+
     public Page<DTOClientes> obtenerClientes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ClientesEntity> pageEntity = repo.findAll(pageable);

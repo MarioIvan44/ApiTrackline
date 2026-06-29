@@ -2,6 +2,7 @@ package apiTrackline.proyectoPTC.Controllers.ServicioTransporteController;
 
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.ExceptionServicioTransporteNoRegistrado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOServicioTransporte;
 import apiTrackline.proyectoPTC.Services.ServicioTransporteService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -58,6 +60,22 @@ public class ServicioTransporte {
                     "status", "Error interno",
                     "message", "Error no controlado al obtener servicios de transporte",
                     "description", e.getMessage()
+            ));
+        }
+    }
+
+    //Get sin paginacion
+    @GetMapping("/get")
+    public ResponseEntity<?> obtenerST(){
+        try {
+            List<DTOServicioTransporte> servicios = service.obtenerSinPaginacion();
+            return ResponseEntity.ok(servicios);
+        }
+        catch (Exception e) {
+            log.error("Error al obtener servicios", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "status", "Error",
+                    "message", "Error no controlado al obtener servicios de transporte"
             ));
         }
     }

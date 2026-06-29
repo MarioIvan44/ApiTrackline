@@ -1,9 +1,11 @@
 package apiTrackline.proyectoPTC.Services;
 
+import apiTrackline.proyectoPTC.Entities.ClientesEntity;
 import apiTrackline.proyectoPTC.Entities.ServicioTransporteEntity;
 import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.ExceptionServicioTransporteNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.ExceptionServicioTransporteNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.ServicioTransporteExceptions.ExceptionServicioTransporteRelacionado;
+import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOServicioTransporte;
 import apiTrackline.proyectoPTC.Repositories.ServicioTransporteRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +16,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 public class ServicioTransporteService {
 
     @Autowired
     private ServicioTransporteRepository repo;
+
+    public List<DTOServicioTransporte> obtenerSinPaginacion(){
+        List<ServicioTransporteEntity> servicios = repo.findAll();
+        return servicios.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
 
     public Page<DTOServicioTransporte> obtenerServiciosTransporte(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);

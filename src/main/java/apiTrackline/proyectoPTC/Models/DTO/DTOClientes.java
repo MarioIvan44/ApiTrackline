@@ -18,12 +18,10 @@ public class DTOClientes {
 
 
     @Size(max = 100, message = "El campo 'nombre' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
-    @NotBlank(message = "El campo 'nombre' no puede estar vacío", groups = {OnCreate.class, OnUpdate.class})
     private String nombre;
 
 
     @Size(max = 100, message = "El campo 'apellido' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
-    @NotBlank(message = "El nombre no puede estar vacio" , groups = {OnCreate.class, OnUpdate.class})
     private String apellido;
 
     @Size(max = 15, message = "El campo 'telefono' debe tener como máximo 15 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
@@ -33,11 +31,6 @@ public class DTOClientes {
 
 
     @Email
-    @Pattern(
-            regexp = "^[\\w.%+-]+@(gmail\\.com|yahoo\\.com|outlook\\.com)$",
-            message = "El correo solo puede ser de dominio @gmail.com, @yahoo.com o @outlook.com",
-            groups = {OnCreate.class, OnUpdate.class, OnPatch.class}
-    )
     @Size(max = 100, message = "El campo 'correo' debe tener como máximo 100 caracteres", groups = {OnCreate.class, OnPatch.class, OnUpdate.class})
     private String correo;
 

@@ -1,10 +1,12 @@
 package apiTrackline.proyectoPTC.Services;
 
 import apiTrackline.proyectoPTC.Entities.TipoDatoContableEntity;
+import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableRelacionado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOTipoDatoContable;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Repositories.TipoDatoContableRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 public class TipoDatoContableService {
 
     @Autowired
     private TipoDatoContableRepository repo;
+
+    // Obtener todos los dt a DTO
+    public List<DTOTipoDatoContable> getData() {
+        List<TipoDatoContableEntity> lista = repo.findAll();
+        return lista.stream()
+                .map(this::convertirAContableDTO)
+                .collect(Collectors.toList());
+    }
 
     // Obtener paginación
     public Page<DTOTipoDatoContable> obtenerTiposContables(int page, int size) {

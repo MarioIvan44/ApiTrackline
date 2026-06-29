@@ -11,10 +11,7 @@ import apiTrackline.proyectoPTC.Exceptions.ViajeExceptions.ExceptionViajeRelacio
 import apiTrackline.proyectoPTC.Models.DTO.DTOClientes;
 import apiTrackline.proyectoPTC.Models.DTO.DTOPermisos;
 import apiTrackline.proyectoPTC.Models.DTO.DTOViaje;
-import apiTrackline.proyectoPTC.Repositories.EstadosRepository;
-import apiTrackline.proyectoPTC.Repositories.ViajeRepository;
-import apiTrackline.proyectoPTC.Repositories.OrdenServicioRepository;
-import apiTrackline.proyectoPTC.Repositories.TransporteRepository;
+import apiTrackline.proyectoPTC.Repositories.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,6 +39,7 @@ public class ViajeService {
     @Autowired
     private EstadosRepository estadosRepository;
 
+
     // Obtener todos los viajes
     public List<DTOViaje> getAll() {
         List<ViajeEntity> lista = repo.findAll();
@@ -54,6 +52,14 @@ public class ViajeService {
     public Page<DTOViaje> obtenerViajes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ViajeEntity> viajes = repo.findAll(pageable);
+        return viajes.map(this::convertirADTO);
+    }
+
+    public Page<DTOViaje> obtenerViajesPorUsuario(Long idUsuario, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ViajeEntity> viajes = repo.findByUsuarioId(idUsuario, pageable);
+
+
         return viajes.map(this::convertirADTO);
     }
 
@@ -262,5 +268,11 @@ public class ViajeService {
         ViajeEntity entity = repo.findById(id)
                 .orElseThrow(() -> new ExceptionViajeNoEncontrado("No se encontró viaje con id: " + id));
         return convertirADTO(entity);
+    }
+
+    public Page<DTOViaje> obtenerViajesPorTransportista(Long idUsuario, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ViajeEntity> viajes = repo.findByTransportistaUsuarioId(idUsuario, pageable);
+        return viajes.map(this::convertirADTO);
     }
 }

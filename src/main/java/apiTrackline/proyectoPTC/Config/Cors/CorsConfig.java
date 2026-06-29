@@ -20,7 +20,7 @@ public class CorsConfig {
 
         // Configuración esencial
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost");
+        config.addAllowedOrigin("http://localhost"); // XAMPP
         config.addAllowedOrigin("https://localhost");
         config.addAllowedOrigin("http://localhost:3000"); // React
         config.addAllowedOrigin("http://localhost:8080"); // Vue
@@ -68,7 +68,7 @@ public class CorsConfig {
         configuration.addAllowedOrigin("https://localhost");
         configuration.addAllowedOrigin("http://localhost");
         configuration.addAllowedOrigin("https://*.herokuapp.com");
-        configuration.addAllowedOrigin("https://learn-api-steel.vercel.app/");
+        configuration.addAllowedOrigin("https://track-line-web.vercel.app/");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
 

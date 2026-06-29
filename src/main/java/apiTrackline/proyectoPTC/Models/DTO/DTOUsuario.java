@@ -22,7 +22,7 @@ public class DTOUsuario {
     private String usuario;
 
     @NotBlank(message = "La contraseña del usuario no puede estar vacía", groups = {OnCreate.class, OnUpdate.class})
-    @Size(min = 8, max = 16, message = "El mínimo de caracteres para la contraseña es 8 y el máximo de caracteres es 16", groups = {OnCreate.class, OnUpdate.class, OnPatch.class})
+    @Size(min = 8, max = 100, message = "El mínimo de caracteres para la contraseña es 8 y el máximo de caracteres es 16", groups = {OnCreate.class, OnUpdate.class, OnPatch.class})
     private String contrasenia;
 
     @NotNull(message = "El rol del usuario no puede estar vacío", groups = {OnCreate.class, OnUpdate.class})

@@ -1,6 +1,8 @@
 package apiTrackline.proyectoPTC.Controllers.Auth;
 import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Models.DTO.DTOUsuario;
+import apiTrackline.proyectoPTC.Models.DTO.RecuperarPasswordRequest;
+import apiTrackline.proyectoPTC.Models.DTO.ResetPasswordRequest;
 import apiTrackline.proyectoPTC.Services.AuthService;
 import apiTrackline.proyectoPTC.Utils.JWTUtils;
 import jakarta.servlet.http.Cookie;
@@ -16,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -70,7 +73,6 @@ public class AuthController {
                             "Domain=apitrackline-3047cf7af332.herokuapp.com",
                     token
             );
-
             response.addHeader("Set-Cookie", cookieValue);
             response.addHeader("Access-Control-Expose-Headers", "Set-Cookie");
         }
@@ -134,13 +136,94 @@ public class AuthController {
         }
     }
 
+    // Endpoint para pedir recuperación
+    @PostMapping("/recuperar")
+    public ResponseEntity<?> recuperarPassword(@RequestBody RecuperarPasswordRequest request) {
+        Optional<UsuarioEntity> userOpt = service.obtenerUsuarioPorCorreo(request.getCorreo());
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "No existe ningún usuario con ese correo"));
+        }
+
+        UsuarioEntity user = userOpt.get();
+
+        // Generar token de reset
+        String resetToken = jwtUtils.createResetToken(user.getUsuario());
+        String link = "https://trackline.app/reset-redirect?token=" + resetToken;
+
+        // Enviar correo con link
+        service.enviarCorreo(request.getCorreo(), "Recupera tu contraseña",
+                "Haz clic en este enlace para restablecer tu contraseña: " + link);
+
+        return ResponseEntity.ok(Map.of("message", "Se envió un correo con las instrucciones"));
+    }
+
+    @GetMapping("/reset-redirect")
+    public ResponseEntity<String> redirectToApp(@RequestParam String token) {
+        String deepLink = "trackline://reset-password?token=" + token;
+
+        String html = """
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Abriendo TrackLine...</title>
+            <script>
+                // Intentar abrir la app
+                window.onload = function() {
+                    window.location = '%s';
+                    // Si después de 2s no abre, mostrar botón de fallback
+                    setTimeout(function() {
+                        document.getElementById('fallback').style.display = 'block';
+                    }, 2000);
+                };
+            </script>
+        </head>
+        <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+            <h2>Abriendo la app TrackLine...</h2>
+            <p>Si no se abre automáticamente, toca el siguiente botón:</p>
+            <a id="fallback" href="%s" style="display:none; background-color:#007BFF; color:white; padding:10px 20px; border-radius:8px; text-decoration:none;">Abrir TrackLine</a>
+        </body>
+        </html>
+        """.formatted(deepLink, deepLink);
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "text/html")
+                .body(html);
+    }
+
+
+    // Endpoint para cambiar la contraseña
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
+        try {
+            String username = jwtUtils.validateResetToken(request.getToken());
+            Optional<UsuarioEntity> userOpt = service.obtenerUsuario(username);
+
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "Usuario no encontrado"));
+            }
+
+            UsuarioEntity user = userOpt.get();
+            service.actualizarPassword(user, request.getNuevaContrasenia());
+
+            return ResponseEntity.ok(Map.of("message", "Contraseña cambiada exitosamente"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Token inválido o expirado"));
+        }
+    }
+
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         // Crear cookie de expiración con SameSite=None
         String cookieValue = "authToken=; Path=/; HttpOnly; Secure; SameSite=None; MaxAge=0; Domain=apitrackline-3047cf7af332.herokuapp.com";
 
         response.addHeader("Set-Cookie", cookieValue);
-        //response.addHeader("Access-Control-Allow-Credentials", "true"); <-- ESTO NO DEBEN AGREGARLO
         response.addHeader("Access-Control-Expose-Headers", "Set-Cookie");
 
         // También agregar headers CORS para la respuesta

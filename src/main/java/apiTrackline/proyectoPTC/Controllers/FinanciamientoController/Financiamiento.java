@@ -5,6 +5,7 @@ import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFin
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionFinanciamientoRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.FinanciamientoExceptions.ExceptionTipoFinanciamientoNoEncontrado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOFinanciamiento;
+import apiTrackline.proyectoPTC.Models.DTO.DTORecoleccion;
 import apiTrackline.proyectoPTC.Services.FinanciamientoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,6 @@ public class Financiamiento {
         }
     }
 
-
     // MÉTODO GET (con paginación)
     @GetMapping("/obtenerDatos")
     public ResponseEntity<?> obtenerFinanciamientos(
@@ -69,6 +69,12 @@ public class Financiamiento {
             ));
         }
         return ResponseEntity.ok(pageResult);
+    }
+
+    @GetMapping("/obtenerFinanciamientoPorId/{id}")
+    public ResponseEntity<DTOFinanciamiento> obtenerFinanciamientoPorId(@PathVariable Long id) {
+        DTOFinanciamiento financiamiento = service.buscarFinanciamientoPorId(id);
+        return ResponseEntity.ok(financiamiento);
     }
 
     // MÉTODO POST

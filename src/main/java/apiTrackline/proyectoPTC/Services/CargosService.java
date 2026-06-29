@@ -3,12 +3,14 @@ package apiTrackline.proyectoPTC.Services;
 import apiTrackline.proyectoPTC.Entities.CargosEntity;
 import apiTrackline.proyectoPTC.Entities.OrdenServicioEntity;
 import apiTrackline.proyectoPTC.Entities.TipoDatoContableEntity;
+import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Exceptions.CargosExceptions.ExceptionCargoNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.CargosExceptions.ExceptionCargoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.CargosExceptions.ExceptionCargoRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.EstadosExceptions.ExceptionOrdenServicioNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoDatoContableExceptions.ExceptionTipoDatoContableNoEncontrado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOCargos;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Repositories.CargosRepository;
 import apiTrackline.proyectoPTC.Repositories.OrdenServicioRepository;
 import apiTrackline.proyectoPTC.Repositories.TipoDatoContableRepository;
@@ -21,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -35,11 +39,26 @@ public class CargosService {
     @Autowired
     private OrdenServicioRepository ordenServicioRepo;
 
+    // Obtener todos los transportistas y convertirlos a DTO
+    public List<DTOCargos> getData() {
+        List<CargosEntity> lista = repo.findAll();
+        return lista.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
     // Obtener lista paginada
     public Page<DTOCargos> obtenerCargos(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<CargosEntity> pageEntity = repo.findAll(pageable);
         return pageEntity.map(this::convertirADTO);
+    }
+
+    public List<DTOCargos> obtenerCargosPorOrden(Long idOrdenServicio) {
+        return repo.findByOrdenServicioCargos_IdOrdenServicio(idOrdenServicio)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
     }
 
     // Buscar por ID

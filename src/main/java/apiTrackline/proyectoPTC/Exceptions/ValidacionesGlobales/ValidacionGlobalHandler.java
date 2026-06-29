@@ -81,9 +81,6 @@ public class ValidacionGlobalHandler {
         else if (mensaje != null && mensaje.toUpperCase().contains("ORA-02291")) {
             errores.put("error", "Violación de clave foránea: El registro relacionado no existe.");
         }
-        else if (mensaje != null && mensaje.toUpperCase().contains("ORA-01400")) {
-            errores.put("error", "No puede insertar un valor nulo en un campo obligatorio.");
-        }
         else {
             errores.put("error", "Violación de integridad de datos. Verifique la información ingresada.");
         }

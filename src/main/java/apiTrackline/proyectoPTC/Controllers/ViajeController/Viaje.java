@@ -1,5 +1,6 @@
 package apiTrackline.proyectoPTC.Controllers.ViajeController;
 
+import apiTrackline.proyectoPTC.Entities.UsuarioEntity;
 import apiTrackline.proyectoPTC.Exceptions.EstadosExceptions.ExceptionOrdenServicioNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.TransporteExceptions.ExceptionTransporteNoEncontrado;
 import apiTrackline.proyectoPTC.Exceptions.ViajeExceptions.ExceptionViajeNoEncontrado;
@@ -11,8 +12,12 @@ import apiTrackline.proyectoPTC.Services.ViajeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,9 +57,10 @@ public class Viaje {
         }
     }
 
-    //METODO GET CON PAGINACIÓN
-    @GetMapping("/datosViaje")
-    public ResponseEntity<?> getViajes(
+    // NUEVO MÉTODO GET CON PAGINACIÓN - VIAJES POR TRANSPORTISTA
+    @GetMapping("/datosViaje/transportistaId/{idUsuario}")
+    public ResponseEntity<?> getViajesPorTransportista(
+            @PathVariable Long idUsuario,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
@@ -72,15 +78,34 @@ public class Viaje {
             ));
         }
 
-        Page<DTOViaje> viajes = service.obtenerViajes(page, size);
-        if (viajes == null || viajes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
-                    "status", "Error",
-                    "message", "No hay viajes registrados"
-            ));
-        }
+        Page<DTOViaje> viajes = service.obtenerViajesPorTransportista(idUsuario, page, size);
         return ResponseEntity.ok(viajes);
     }
+
+    //METODO GET CON PAGINACIÓN
+    @GetMapping("/datosViaje/userId/{idUsuario}")
+    public ResponseEntity<?> getViajes(
+            @PathVariable Long idUsuario,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        if (page < 0) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "Error de validación",
+                    "message", "El número de página no puede ser negativo"
+            ));
+        }
+
+        if (size <= 0 || size > 50) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "Error de validación",
+                    "message", "El tamaño de la página debe estar entre 1 y 50"
+            ));
+        }
+
+        Page<DTOViaje> viajes = service.obtenerViajesPorUsuario(idUsuario, page, size);
+        return ResponseEntity.ok(viajes);
+}
 
     // MÉTODO GET (SIN PAGINACIÓN) - Obtener todos sin paginación
     // RUTA: localhost:8080/apiViaje/obtener

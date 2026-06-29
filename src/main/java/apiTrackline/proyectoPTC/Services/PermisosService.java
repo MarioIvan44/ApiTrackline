@@ -1,12 +1,14 @@
 package apiTrackline.proyectoPTC.Services;
 
 import apiTrackline.proyectoPTC.Entities.PermisosEntity;
+import apiTrackline.proyectoPTC.Entities.TransportistaEntity;
 import apiTrackline.proyectoPTC.Entities.ViajeEntity;
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoRelacionado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoNoRegistrado;
 import apiTrackline.proyectoPTC.Exceptions.TipoFinanciamientoExceptions.ExceptionTipoFinanciamientoRelacionado;
 import apiTrackline.proyectoPTC.Models.DTO.DTOPermisos;
+import apiTrackline.proyectoPTC.Models.DTO.DTOTransportista;
 import apiTrackline.proyectoPTC.Models.DTO.DTOViaje;
 import apiTrackline.proyectoPTC.Repositories.PermisosRepository;
 import apiTrackline.proyectoPTC.Exceptions.PermisosExceptions.ExceptionPermisoNoEncontrado;
@@ -19,7 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,6 +37,14 @@ public class PermisosService {
         Pageable pageable = PageRequest.of(page, size);
         Page<PermisosEntity> permisos = repo.findAll(pageable);
         return permisos.map(this::convertirADTO);
+    }
+
+    // GET SINN PAGINACION
+    public List<DTOPermisos> getData() {
+        List<PermisosEntity> lista = repo.findAll();
+        return lista.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
     // GET por ID
