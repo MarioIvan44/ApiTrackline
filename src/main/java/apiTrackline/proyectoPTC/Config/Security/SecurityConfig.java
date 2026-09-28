@@ -157,7 +157,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/apiRecoleccion//obtenerRecoleccionPorId/{id}").authenticated()
 
                 //ENDPOINTS PARA ROLES
-                                .requestMatchers(HttpMethod.GET, "/apiRoles/getRoles").hasAnyAuthority("ROLE_Administrador" , "ROLE_Empleados")
+                                .requestMatchers(HttpMethod.GET, "/apiRoles/getRoles").hasAnyAuthority("ROLE_Administrador" , "ROLE_Empleado")
 
                 //ENDPOINTS PARA SELECTIVO
                                 .requestMatchers(HttpMethod.GET, "/apiSelectivo/obtenerSeletivos").hasAnyAuthority("ROLE_Administrador", "ROLE_Empleado")
