@@ -6,10 +6,13 @@
 ![Oracle](https://img.shields.io/badge/Database-Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white)
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Deploy-Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
+![ExpoTécnico](https://img.shields.io/badge/ExpoT%C3%A9cnico-3er%20Lugar-FFD700?style=for-the-badge&logo=trophy&logoColor=white)
 
 ## Descripción del Proyecto
 
 **Trackline** es un sistema para la gestión y el seguimiento de órdenes de servicio de una agencia de logística y trámites aduanales. Este repositorio contiene la **API REST** que sirve como backend central del ecosistema Trackline, consumida tanto por la aplicación web como por la aplicación móvil [TracklineAppRoutes](https://github.com/MarioIvan44/TracklineAppRoutes).
+
+El proyecto se desarrolló para **[SGL - Servicios Globales Logísticos](https://sgl-sv.com/)**, una empresa real de logística y trámites aduanales, y obtuvo el **3er lugar en ExpoTécnico** con el Instituto Técnico Ricaldone.
 
 La API permite registrar una orden de servicio desde su encabezado hasta su facturación, controlar cada etapa del trámite aduanal (documentos, clasificación, digitación, registro, pago, levante, carga, en camino y entrega), asignar transportistas y viajes, y compartir el progreso del viaje en tiempo real con el cliente.
 
@@ -200,11 +203,16 @@ Se genera el archivo `target/proyectoPTC-0.0.1-SNAPSHOT.war`, que es el que ejec
 
 ---
 
-## Autor
+## Autores
 
-Proyecto desarrollado en equipo como parte del Proyecto Técnico Científico (PTC) del Instituto Técnico Ricaldone.
+Proyecto desarrollado en equipo como parte del Proyecto Técnico Científico (PTC) 2025 del Instituto Técnico Ricaldone, para la empresa [SGL - Servicios Globales Logísticos](https://sgl-sv.com/). Ganador del **3er lugar en ExpoTécnico**.
 
-**Mario Iván Vásquez**
+| Integrante | Rol en el proyecto |
+| :--- | :--- |
+| **Mario Vásquez** | Desarrollo general de la API: modelado de tablas y CRUDs |
+| **Natalie Navarro** | Desarrollo general de la API: modelado de tablas y CRUDs |
+| **Adriana Martínez** | Despliegue y publicación de la API en Heroku |
+| **Jonatan Santos** | Seguridad: inicio de sesión, cookies y autenticación |
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mario-v%C3%A1squez-6a4948346/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MarioIvan44)
