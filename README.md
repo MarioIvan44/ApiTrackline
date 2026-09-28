@@ -12,7 +12,7 @@
 
 **Trackline** es un sistema para la gestión y el seguimiento de órdenes de servicio de una agencia de logística y trámites aduanales. Este repositorio contiene la **API REST** que sirve como backend central del ecosistema Trackline, consumida tanto por la aplicación web como por la aplicación móvil [TracklineAppRoutes](https://github.com/MarioIvan44/TracklineAppRoutes).
 
-El proyecto se desarrolló para **[SGL - Servicios Globales Logísticos](https://sgl-sv.com/)**, una empresa real de logística y trámites aduanales, y obtuvo el **3er lugar en ExpoTécnico** con el Instituto Técnico Ricaldone.
+El proyecto se desarrolló para **[SGL - Servicios Globales Logísticos](https://sgl-sv.com/)**, una empresa real de logística y trámites aduanales, y obtuvo el **3er lugar en Expo Técnica 2025** , en segundo año de bachillerato, con el Instituto Técnico Ricaldone.
 
 La API permite registrar una orden de servicio desde su encabezado hasta su facturación, controlar cada etapa del trámite aduanal (documentos, clasificación, digitación, registro, pago, levante, carga, en camino y entrega), asignar transportistas y viajes, y compartir el progreso del viaje en tiempo real con el cliente.
 
@@ -205,7 +205,7 @@ Se genera el archivo `target/proyectoPTC-0.0.1-SNAPSHOT.war`, que es el que ejec
 
 ## Autores
 
-Proyecto desarrollado en equipo como parte del Proyecto Técnico Científico (PTC) 2025 del Instituto Técnico Ricaldone, para la empresa [SGL - Servicios Globales Logísticos](https://sgl-sv.com/). Ganador del **3er lugar en ExpoTécnico**.
+Proyecto desarrollado en equipo como parte del Proyecto Técnico Científico (PTC) 2025 del Instituto Técnico Ricaldone, para la empresa [SGL - Servicios Globales Logísticos](https://sgl-sv.com/). Ganador del **3er lugar en Expo Técnica 2025**.
 
 | Integrante | Rol en el proyecto |
 | :--- | :--- |
